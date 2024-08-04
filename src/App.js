@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>沉默的蟋蟀</h1>
+        <h1 className='Title'>沉默的蟋蟀</h1>
         <Table1></Table1>
       </header>
     </div>
