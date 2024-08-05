@@ -1,0 +1,33 @@
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  
+  .stat-cell {
+    border-bottom: 1px solid gray;
+    padding: 4px;
+    width: 100%;
+  }
+  
+  .arrow-cell {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .arrow-cell span {
+    padding: 4px;
+    border-right: 1px solid gray;
+  }
+  
+  .arrow-cell span:last-child {
+    border-right: none;
+  }
+  

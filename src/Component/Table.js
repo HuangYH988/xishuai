@@ -1,5 +1,6 @@
-import sampleList from "./Data/dummyData";
 import React from "react";
+import sampleList from "./Data/dummyData";
+import "./Table1.css"; // Import the CSS file for styling
 
 export default function Table1() {
   const headers = ["蟋蟀名", "大小", "等级"];
@@ -14,20 +15,25 @@ export default function Table1() {
     "攻速",
   ];
   const updates = ["加减", "虫蜕", "异虫", "删除"];
+
+  // Populate rows with data from sampleList
   const rows = sampleList.map((item) => [
     item.bugName,
     item.size,
     item.level,
-    ...item.stats,
+    ...item.stats.map((stat, index) => ({
+      stat,
+      arrow: item.arrows[index],
+    })),
     "",
     "",
-    "",
-    "", // Three blank columns for updates
+    "无",
+    ""
   ]);
 
   return (
     <div>
-      <table border="1">
+      <table border="1" className="custom-table">
         <thead>
           <tr>
             {headers.map((header, index) => (
@@ -44,7 +50,21 @@ export default function Table1() {
         <tbody>
           {rows.map((row, rowIndex) => (
             <tr key={rowIndex}>
-              {row.map((cell, cellIndex) => (
+              {row.slice(0, 3).map((cell, cellIndex) => (
+                <td key={cellIndex}>{cell}</td>
+              ))}
+              {row.slice(3, 11).map((cell, cellIndex) => (
+                <td key={cellIndex} >
+                  <div className="stat-cell">{cell.stat}</div>
+                  <div className="arrow-cell">
+                    <span >
+                      {cell.arrow[0]}-{cell.arrow[1]}
+                    </span>
+                    <span>0</span>
+                  </div>
+                </td>
+              ))}
+              {row.slice(11).map((cell, cellIndex) => (
                 <td key={cellIndex}>{cell}</td>
               ))}
             </tr>
