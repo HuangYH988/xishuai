@@ -1,0 +1,19 @@
+.pop-up-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .pop-up-table th, .pop-up-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .pop-up-table thead {
+    background-color: #f2f2f2;
+  }
+  
+  .pop-up-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

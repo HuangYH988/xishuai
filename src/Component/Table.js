@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import sampleList from "./Data/dummyData";
 import "./Table1.css"; // Import the CSS file for styling
+import ChangeStat from "./EditModals/ChangeStats";
 
 export default function Table1() {
   const headers = ["蟋蟀名", "大小", "等级"];
@@ -15,21 +16,111 @@ export default function Table1() {
     "攻速",
   ];
   const updates = ["加减", "虫蜕", "异虫", "删除"];
+  const statKeys = ["atk", "def", "hp", "sta", "crt", "hit", "blk", "spd"];
+
+  const [isChange, setIsChange] = useState(false);
+
+  const changeRange = (stat, range) => {
+    //console.log(range)
+    switch (stat) {
+      case "低":
+        if (range[0] < 1) {
+          range[0] = 1;
+        }
+        if (range[1] > 9) {
+          range[1] = 9;
+        }
+        break;
+      case "中":
+        if (range[0] < 10) {
+          range[0] = 10;
+        }
+        if (range[1] > 18) {
+          range[1] = 18;
+        }
+        break;
+      case "高":
+        if (range[0] < 19) {
+          range[0] = 19;
+        }
+        if (range[1] > 27) {
+          range[1] = 27;
+        }
+        break;
+      case "超":
+        if (range[0] < 28) {
+          range[0] = 28;
+        }
+        if (range[1] > 36) {
+          range[1] = 36;
+        }
+        break;
+      case "神":
+        if (range[0] < 37) {
+          range[0] = 37;
+        }
+        break;
+      default:
+        break;
+    }
+    return range;
+  };
 
   // Populate rows with data from sampleList
   const rows = sampleList.map((item) => [
     item.bugName,
     item.size,
     item.level,
-    ...item.stats.map((stat, index) => ({
-      stat,
-      arrow: item.arrows[index],
+    ...statKeys.map((key) => ({
+      stat: item[key][0],
+      arrow: changeRange(item[key][0], item[key][1]),
+      change: item[key][2],
     })),
-    "",
-    "",
-    "无",
-    ""
   ]);
+
+  const openModal = (typeID) => {
+    switch (typeID) {
+      case 1:
+        setIsChange(true);
+        break;
+      // case 2:
+      //   setIsLance(true);
+      //   break;
+      // case 3:
+      //   setIsAxe(true);
+      //   break;
+      // case 4:
+      //   setIsBow(true);
+      //   break;
+      // case 5:
+      //   setIsBrawl(true);
+      //   break;
+      default:
+        break;
+    }
+  };
+
+  const closeModal = (typeID) => {
+    switch (typeID) {
+      case 1:
+        setIsChange(false);
+        break;
+      // case 2:
+      //   setIsLance(false);
+      //   break;
+      // case 3:
+      //   setIsAxe(false);
+      //   break;
+      // case 4:
+      //   setIsBow(false);
+      //   break;
+      // case 5:
+      //   setIsBrawl(false);
+      //   break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div>
@@ -54,19 +145,29 @@ export default function Table1() {
                 <td key={cellIndex}>{cell}</td>
               ))}
               {row.slice(3, 11).map((cell, cellIndex) => (
-                <td key={cellIndex} >
+                <td key={cellIndex}>
                   <div className="stat-cell">{cell.stat}</div>
                   <div className="arrow-cell">
-                    <span >
+                    <span>
                       {cell.arrow[0]}-{cell.arrow[1]}
                     </span>
-                    <span>0</span>
+                    <span>{cell.change}</span>
                   </div>
                 </td>
               ))}
-              {row.slice(11).map((cell, cellIndex) => (
-                <td key={cellIndex}>{cell}</td>
-              ))}
+              <td key="变">
+                <button onClick={() => openModal(1)}>加/减</button>
+              </td>
+              <td key="蜕">
+                <button>加虫蜕</button>
+              </td>
+              <td key="异">
+                无<br />
+                <button>更改异虫</button>
+              </td>
+              <td key="删">
+                <button>删除</button>
+              </td>
             </tr>
           ))}
           <tr>
@@ -74,6 +175,7 @@ export default function Table1() {
           </tr>
         </tbody>
       </table>
+      <ChangeStat isOpen={isChange} onClose={() => closeModal(1)} />
     </div>
   );
 }
