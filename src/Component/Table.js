@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import sampleList from "./Data/dummyData";
 import "./Table1.css"; // Import the CSS file for styling
 import ChangeStat from "./EditModals/ChangeStats";
+import AddShed from "./EditModals/AddShed";
+import ChangeAbnorm from "./EditModals/ChangeAbnorm";
+import Delete from "./EditModals/Delete";
 
 export default function Table1() {
   const headers = ["蟋蟀名", "大小", "等级"];
@@ -19,6 +22,9 @@ export default function Table1() {
   const statKeys = ["atk", "def", "hp", "sta", "crt", "hit", "blk", "spd"];
 
   const [isChange, setIsChange] = useState(false);
+  const [isShed, setIsShed] = useState(false);
+  const [isAbnorm, setIsAbnorm] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   const changeRange = (stat, range) => {
     //console.log(range)
@@ -76,6 +82,7 @@ export default function Table1() {
       arrow: changeRange(item[key][0], item[key][1]),
       change: item[key][2],
     })),
+    item.abnorm,
   ]);
 
   const openModal = (typeID) => {
@@ -83,18 +90,16 @@ export default function Table1() {
       case 1:
         setIsChange(true);
         break;
-      // case 2:
-      //   setIsLance(true);
-      //   break;
-      // case 3:
-      //   setIsAxe(true);
-      //   break;
-      // case 4:
-      //   setIsBow(true);
-      //   break;
-      // case 5:
-      //   setIsBrawl(true);
-      //   break;
+      case 2:
+        setIsShed(true);
+        break;
+      case 3:
+        setIsAbnorm(true);
+        break;
+      case 4:
+        setIsDelete(true);
+        break;
+
       default:
         break;
     }
@@ -105,18 +110,16 @@ export default function Table1() {
       case 1:
         setIsChange(false);
         break;
-      // case 2:
-      //   setIsLance(false);
-      //   break;
-      // case 3:
-      //   setIsAxe(false);
-      //   break;
-      // case 4:
-      //   setIsBow(false);
-      //   break;
-      // case 5:
-      //   setIsBrawl(false);
-      //   break;
+      case 2:
+        setIsShed(false);
+        break;
+      case 3:
+        setIsAbnorm(false);
+        break;
+      case 4:
+        setIsDelete(false);
+        break;
+
       default:
         break;
     }
@@ -155,18 +158,18 @@ export default function Table1() {
                   </div>
                 </td>
               ))}
-              <td key="变">
+              <td key={`变${rowIndex}`}>
                 <button onClick={() => openModal(1)}>加/减</button>
               </td>
-              <td key="蜕">
-                <button>加虫蜕</button>
+              <td key={`蜕${rowIndex}`}>
+                <button onClick={() => openModal(2)}>加虫蜕</button>
               </td>
-              <td key="异">
-                无<br />
-                <button>更改异虫</button>
+              <td key={`异${rowIndex}`}>
+                {row[11]} <br />
+                <button onClick={() => openModal(3)}>更改异虫</button>
               </td>
-              <td key="删">
-                <button>删除</button>
+              <td key={`删${rowIndex}`}>
+                <button onClick={() => openModal(4)}>删除</button>
               </td>
             </tr>
           ))}
@@ -176,6 +179,9 @@ export default function Table1() {
         </tbody>
       </table>
       <ChangeStat isOpen={isChange} onClose={() => closeModal(1)} />
+      <AddShed isOpen={isShed} onClose={() => closeModal(2)} />
+      <ChangeAbnorm isOpen={isAbnorm} onClose={() => closeModal(3)} />
+      <Delete isOpen={isDelete} onClose={() => closeModal(4)} />
     </div>
   );
 }
